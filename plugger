@@ -3,50 +3,50 @@
 DEFAULT_RC="$HOME/.plugger/pluggerrc"
 
 if [[ -z $1 ]] && (return 2> /dev/null); then
-	source $DEFAULT_RC
-	if [[ ! $? -eq 0 ]]; then
-		echo "pluggerrc not found at $DEFAULT_RC." >&2
-		return
-	fi
-	for plugin in ${plugins[@]}; do
-		source $HOME/.plugger/$plugin/$plugin.plugin.bash
+    source $DEFAULT_RC
+    if [[ ! $? -eq 0 ]]; then
+        echo "pluggerrc not found at $DEFAULT_RC." >&2
+        return
+    fi
+    for plugin in ${plugins[@]}; do
+        source $HOME/.plugger/$plugin/$plugin.plugin.bash
 
-		if [[ ! $? -eq 0 ]]; then
-			echo "Plugin $plugin not found." >&2
-		fi
-	done
-	return
+        if [[ ! $? -eq 0 ]]; then
+            echo "Plugin $plugin not found." >&2
+        fi
+    done
+    return
 fi
 
 list() {
-	source $DEFAULT_RC || exit 1
-	if [[ ${#plugins[@]} -eq 0 ]]; then
-		echo "Plugger isn't loaded." >&2
-		exit 1
-	fi
+    source $DEFAULT_RC || exit 1
+    if [[ ${#plugins[@]} -eq 0 ]]; then
+        echo "Plugger isn't loaded." >&2
+        exit 1
+    fi
 
-	echo "${plugins[@]}"
+    echo "${plugins[@]}"
 }
 
 print_usage() {
-	echo -e "PLUGGER - USAGE
-	(source)\tLoad plugins from pluggerrc
-	edit\t\tEdit your pluggerrc file
-	list\t\tList all plugins"
+    echo -e "PLUGGER - USAGE
+    (source)\tLoad plugins from pluggerrc
+    edit\t\tEdit your pluggerrc file
+    list\t\tList all plugins"
 }
 
 case "$1" in
-	"edit")
-		vi ~/$HOME/.plugger
-		;;
-	"list")
-		list
-		;;
-	"help")
-		print_usage
-		;;	
-	*)
-		print_usage
-		exit 1
-		;;
+    "edit")
+        vi ~/$HOME/.plugger
+        ;;
+    "list")
+        list
+        ;;
+    "help")
+        print_usage
+        ;;  
+    *)
+        print_usage
+        exit 1
+        ;;
 esac
