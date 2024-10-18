@@ -2,7 +2,7 @@
 
 DEFAULT_RC="$HOME/.plugger/pluggerrc"
 
-if [[ -z $1 ]]; then
+if [[ -z $1 ]] && (return 2> /dev/null); then
 	source $DEFAULT_RC
 	if [[ ! $? -eq 0 ]]; then
 		echo "pluggerrc not found at $DEFAULT_RC." >&2
