@@ -32,3 +32,9 @@ plugins=(
 ```
 
 This plugin will now be sourced each time you launch a new session
+
+## Usage
+
+```
+plugger help
+```
