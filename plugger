@@ -1,0 +1,61 @@
+#!/bin/bash
+
+DEFAULT_RC="$HOME/.plugger/pluggerrc"
+
+if [[ -z $1 ]]; then
+	source $DEFAULT_RC
+	if [[ ! $? -eq 0 ]]; then
+		echo "pluggerrc not found at $DEFAULT_RC." >&2
+		return
+	fi
+	for plugin in ${plugins[@]}; do
+		source $HOME/.plugger/$plugin/$plugin.plugin.bash
+
+		if [[ ! $? -eq 0 ]]; then
+			echo "Plugin $plugin not found." >&2
+		fi
+	done
+	return
+fi
+
+install() {
+	mkdir -p $HOME/.plugger &&\
+	git clone $1 $HOME/.plugger
+}
+
+list() {
+	source $DEFAULT_RC || exit 1
+	if [[ ${#plugins[@]} -eq 0 ]]; then
+		echo "Plugger isn't loaded." >&2
+		exit 1
+	fi
+
+	echo "${plugins[@]}"
+}
+
+print_usage() {
+	echo -e "PLUGGER - USAGE
+	(source plugger) load <plugin_name(optional)>\tLoad plugins from arguments or pluggerrc
+	install <repository-url>\tInstall a plugin from a git repo
+	edit\tEdit your pluggerrc file
+	list\tList all plugins (installed plugins are marked with a \e[32m*\e[0m)"
+}
+
+case "$1" in
+	"install")
+		install ${@:2}
+		;;
+	"edit")
+		vi ~/$HOME/.plugger
+		;;
+	"list")
+		list
+		;;
+	"help")
+		print_usage
+		;;	
+	*)
+		print_usage
+		exit 1
+		;;
+esac
