@@ -18,11 +18,6 @@ if [[ -z $1 ]] && (return 2> /dev/null); then
 	return
 fi
 
-install() {
-	mkdir -p $HOME/.plugger &&\
-	git clone $1 $HOME/.plugger
-}
-
 list() {
 	source $DEFAULT_RC || exit 1
 	if [[ ${#plugins[@]} -eq 0 ]]; then
@@ -35,16 +30,12 @@ list() {
 
 print_usage() {
 	echo -e "PLUGGER - USAGE
-	(source plugger) load <plugin_name(optional)>\tLoad plugins from arguments or pluggerrc
-	install <repository-url>\tInstall a plugin from a git repo
-	edit\tEdit your pluggerrc file
-	list\tList all plugins (installed plugins are marked with a \e[32m*\e[0m)"
+	(source)\tLoad plugins from pluggerrc
+	edit\t\tEdit your pluggerrc file
+	list\t\tList all plugins"
 }
 
 case "$1" in
-	"install")
-		install ${@:2}
-		;;
 	"edit")
 		vi ~/$HOME/.plugger
 		;;
