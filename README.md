@@ -1,4 +1,4 @@
-# Plugger - the bash plugin system
+# Plugger - the lightweight bash plugin manager
 
 ## Setup
 
@@ -7,7 +7,7 @@ Run install.sh
 ./install.sh
 ```
 
-The script will create a .plugger folder inside your $HOME as well as pluggerrc file
+The script will create a .plugger folder inside your $HOME directory as well as a pluggerrc file
 
 Add this line to your .bashrc:
 ```
